@@ -1,0 +1,17 @@
+{
+  "hosting": [
+    {
+      "app": {
+        "project": "zonghe-web",
+        "target": "build",
+        "configuration": "production",
+        "path": "dist/zonghe-web/browser"
+      },
+      "azureHosting": {
+        "subscription": "0c7c098f-b6f4-476c-aa2a-da5443c0f319",
+        "resourceGroupName": "zonghe",
+        "account": "zonghedev"
+      }
+    }
+  ]
+}

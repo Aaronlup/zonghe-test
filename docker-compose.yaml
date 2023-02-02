@@ -1,0 +1,13 @@
+version: "3"
+services:
+  website:
+    image: registry.cn-hangzhou.aliyuncs.com/tenmaker/zonghe-web:v1.0
+    privileged: false
+    restart: always
+    ports:
+    - '80'
+    environment:
+    - LETSENCRYPT_HOST=www.zonghe-consulting.com,zonghe-consulting.com
+    - LETSENCRYPT_EMAIL=dev@tenmaker.com
+    - VIRTUAL_HOST=www.zonghe-consulting.com,zonghe-consulting.com
+    network_mode: bridge

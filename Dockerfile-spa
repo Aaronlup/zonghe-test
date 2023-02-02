@@ -1,0 +1,31 @@
+FROM node:12.16-alpine
+
+LABEL maintainer="z@benwk.com"
+
+# 设置构建变量
+ARG sde=test
+ARG app=website
+
+# 设置环境变量
+ENV APP $app
+
+# 安装依赖
+RUN npm i -g serve
+
+# 设置应用目录
+WORKDIR /app
+RUN mkdir -p /app/client /app/logs /app/client_temp
+COPY . /app/client_temp
+
+# 配置客户端应用
+RUN cd client_temp \
+    && npm install --production --silent \
+    && npm run build \
+    && cp -r dist/$APP/browser/* /app/client \
+    && rm -rf /app/client_temp
+
+# 设置容器端口
+EXPOSE 80
+
+# 容器启动命令
+CMD ["serve","-s","/app/client","-p","80"]
