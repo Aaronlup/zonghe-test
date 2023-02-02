@@ -1,0 +1,24 @@
+@font-face {
+  font-family: 'Lanting Pro Heavy';
+  src: url('./OPPOSans-H.ttf');
+}
+
+@font-face {
+  font-family: 'Lanting Pro Bold';
+  src: url('./OPPOSans-B.ttf');
+}
+
+@font-face {
+  font-family: 'Lanting Pro Light';
+  src: url('./OPPOSans-L.ttf');
+}
+
+@font-face {
+  font-family: 'Lanting Pro Medium';
+  src: url('./OPPOSans-M.ttf');
+}
+
+@font-face {
+  font-family: 'Lanting Pro Regular';
+  src: url('./OPPOSans-R.ttf');
+}
