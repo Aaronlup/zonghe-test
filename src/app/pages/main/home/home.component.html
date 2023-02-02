@@ -1,0 +1,461 @@
+<!-- home.component.html -->
+
+<mat-drawer-container *ngIf="isBrowser" class="menu-drawer-container">
+  <mat-drawer #drawer class="example-container" mode="side" [opened]="drawerOpened">
+    <div class="mat-drawer-wrapper" (swipeleft)="drawerOpened = false">
+      <div class="close" (click)="drawerOpened = false">
+        <i class="iconfont icon-close"></i>
+      </div>
+      <ul class="menu f-medium">
+        <li *ngFor="let nav of navList"
+            [data-menuanchor]="nav"
+            (click)="onscrollIntoView(nav)"
+            class="nav-item">
+          <a [href]="'#' + nav" [class]="headerNav === nav ? 'color-white' : ''">{{'nav.' + nav | translate }}</a>
+        </li>
+      </ul>
+    </div>
+  </mat-drawer>
+</mat-drawer-container>
+<header [class]="headerBackground ? 'header white header-background' : 'header white'">
+<!--    <div class="inner-content first-header web">-->
+<!--      <div class="lang-trigger" (click)="switchLang()">{{translate.activeLang === 'zh' ? '中' : 'EN'}}</div>-->
+<!--    </div>-->
+    <div class="inner-content second-header">
+      <div class="logo">
+        <img src="./assets/img/logo.png" alt="">
+      </div>
+      <ul id="menu" class="menu f-medium web">
+        <li *ngFor="let nav of navList"
+            [data-menuanchor]="nav"
+            class="nav-item">
+          <a [href]="'#' + nav" [class]="headerNav === nav ? 'color-white' : ''">{{'nav.' + nav | translate }}</a>
+        </li>
+      </ul>
+<!--        <div class="lang-trigger web" (click)="switchLang()">-->
+<!--          {{translate.activeLang === 'zh' ? '中' : 'EN'}}-->
+<!--        </div>-->
+        <div class="mobile-header-right mobile">
+            <div class="lang-trigger" (click)="switchLang()">
+<!--              {{translate.activeLang === 'zh' ? '中' : 'EN'}}-->
+            </div>
+            <div class="lang-trigger" (click)="drawerOpened = true">
+                <i class="iconfont iconego-menu"></i>
+            </div>
+        </div>
+    </div>
+  </header>
+<div *ngIf="!mobile" fullpage id="fullpage" [options]="config" (ref)="getRef($event)" class="home-web-wrapper">
+  <div class="section home-page">
+    <div class="inner-content">
+      <div class="home-logo">
+        <img src="./assets/img/logo-consulting.png" alt="">
+      </div>
+        <div [class]="translate.activeLang === 'zh' ? 'home-desc f-light' : 'home-desc f-light letter-spacing-en'">
+        {{ 'home.desc' | translate }}
+      </div>
+    </div>
+  </div>
+  <!-- <div class="section" (click)="fullpageApi.moveSectionDown()">Some section2</div> -->
+  <div class="section solution-page">
+    <div class="inner-content">
+      <p class="solution-title f-heavy">{{'solution.title' | translate}}</p>
+      <p class="solution-desc f-medium">{{ 'solution.desc' | translate }}</p>
+      <div class="solution-intro">
+        <div class="solution-intro-nav">
+          <div class="solution-nav-item f-bold" *ngFor="let nav of solutionInfo">
+            <span class="solution-nav-item-wrapper" (click)="onSolutionInfoSelect(nav.nav)">
+              <span class="text">{{ 'solution.nav.' + nav.nav | translate }}</span>
+              <ng-container *ngIf="solutionInfoSelect === nav.nav">
+                <span class="border-bottom"></span>
+              </ng-container>
+            </span>
+          </div>
+        </div>
+        <div class="solution-intro-content">
+          <div class="solution-intro-item" *ngFor="let content of solutionInfo; let i = index">
+            <ng-container *ngIf="solutionInfoSelect === content.nav">
+              <div class="intro-section" *ngFor="let section of content.content">
+                <div class="intro-title f-bold">
+                  {{'solution.content.' + content.nav + '.' + section.title | translate }}
+                </div>
+                <p *ngIf="section.desc" class="intro-desc">
+                  {{'solution.content.' + content.nav + '.' + section.desc | translate }}
+                </p>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section insight-page">
+    <div class="inner-content">
+      <p class="insight-title f-heavy">{{'insight.title' | translate}}</p>
+      <div class="insight-list">
+        <ng-container *ngFor="let news of insightList; let i = index">
+          <div class="insight-item">
+            <p class="news-title f-bold">{{ news.title }}</p>
+            <div class="news-desc">
+              {{ news.desc }}
+              <a class="news-link" (click)="onOpen(news.href)">[{{ 'insight.view-more' | translate }}]</a>
+            </div>
+            <span class="news-date">{{news.date}}</span>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <div class="section about-us-page">
+    <div class="au-inner">
+      <div class="au-first-block">
+        <p class="au-title f-heavy">{{'about-us.title' | translate}}</p>
+        <p class="au-desc">{{ 'about-us.desc' | translate}}</p>
+      </div>
+      <div class="au-second-block">
+        <div class="text-block">
+          <div class="text-item" *ngFor="let text of aboutUsList">
+            <div class="text-title f-bold">{{ 'about-us.' + text.title | translate }}:</div>
+            <div class="text-desc f-light">{{ 'about-us.' + text.desc | translate }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="au-third-block">
+        <div class="text-block">
+          <div class="third-inner">
+            <div class="logo">
+              <img src="./assets/img/logo.png" alt="">
+            </div>
+            <div class="third-title f-heavy">
+              {{ 'about-us.zonghe-consolution' | translate }}
+            </div>
+            <div class="third-desc">
+              {{ 'about-us.zonghe-desc' | translate }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section team-page">
+    <div class="inner-content">
+      <p class="team-title f-heavy">{{'teams.title' | translate}}</p>
+      <div [class]="translate.activeLang === 'zh' ? 'team-main-content' : 'team-main-content team-main-content-en'">
+        <div class="team-list" [ngStyle]="{left: teamListLeft}" #TEAM_LIST>
+          <div class="team-item" *ngFor="let item of teamList; let i = index">
+            <div class="person-image">
+              <img [src]="'./assets/img/' + item.big + '.png'" [alt]="item.name">
+            </div>
+            <div class="person-info">
+              <div class="person-name f-bold">{{item.name}}</div>
+              <div class="person-desc">
+                {{ translate.activeLang === 'zh' ? item.desc : item.descEn }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="team-main-nav">
+            <div class="active-nav" [ngStyle]="{left: activeNavLeft}"></div>
+            <div class="team-nav-item" style="height: 100%" *ngFor="let nav of teamList; let i = index" (click)="handleMoveTeam(i)">
+                <img [class]="teamActiveIndex === i ? 'big' : ''" [src]="'./assets/img/' + nav.img + '.png'" [alt]="nav.name">
+            </div>
+        </div>
+    </div>
+  </div>
+  <div class="section contact-page">
+    <div class="inner-content">
+      <div class="contact-content">
+        <div class="contact-item contact-map">
+          <div class="map-anchor">
+            <span>世纪财富中心</span>
+          </div>
+        </div>
+        <div class="contact-item contact-info">
+          <div class="contact-title f-heavy">{{'contact-us.title' | translate}}</div>
+          <div class="contact-info-content f-medium">
+            <div class="contact-info-item" *ngFor="let item of contactList">
+              <div class="contact-info-title">{{ 'contact-us.' + item.title | translate }}</div>
+              <div class="contact-info-desc">
+                <ng-container *ngIf="item.isEmail; else TEXT">
+                  <a [href]="'mailto:' + item.desc" class="contact-info-email">{{item.desc}}</a>
+                </ng-container>
+                <ng-template #TEXT>
+                  {{ item.desc }}
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-bottom">
+        <div class="quick-link-content">
+          <a class="quick-link" href="http://www.chinatax.gov.cn/" target="_blank">国家税务总局</a>
+          <a class="quick-link" href="http://www.mof.gov.cn/index.htm" target="_blank">中华人民共和国财政部</a>
+          <a class="quick-link" href="#home">宗赫资讯</a>
+        </div>
+        <footer class="footer">
+          <div class="social-icon-list">
+            <div class="social-icon icon-wechat">
+              <div class="tooltip-wechat"></div>
+            </div>
+            <div class="social-icon icon-email">
+              <div class="tooltip-email">service@zh-consulting.com</div>
+            </div>
+            <div class="social-icon icon-weibo">
+              <div class="tooltip-weibo"></div>
+            </div>
+            <div class="social-icon icon-phone">
+              <div class="tooltip-phone">18515008868</div>
+            </div>
+          </div>
+          <div class="copyright f-medium">
+            &copy;2021 <a style="color: white" href="https://beian.miit.gov.cn" target="_blank">京ICP备2021007009号</a>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="mobile" (scroll)="onScroll($event)" class="home-wrapper">
+  <div class="section home-page" #homeView>
+    <div class="inner-content">
+      <div class="home-logo">
+        <img src="./assets/img/logo-consulting.png" alt="">
+      </div>
+      <div [class]="translate.activeLang === 'zh' ? 'home-desc f-light' : 'home-desc f-light letter-spacing-en'">
+        {{ 'home.desc' | translate }}
+      </div>
+    </div>
+  </div>
+  <div class="section solution-page" #solutionView>
+    <div class="inner-content">
+      <p class="solution-title f-heavy">{{'solution.title' | translate}}</p>
+      <p class="solution-desc f-medium">{{ 'solution.desc' | translate }}</p>
+      <div class="solution-intro">
+        <div class="solution-intro-nav" #solutionIntroNav>
+          <div class="solution-nav-item f-bold {{nav.nav}}" *ngFor="let nav of solutionInfo">
+            <span class="solution-nav-item-wrapper" [style]="'right: ' + solutionSliding + 'px'" (click)="onSolutionInfoSelect(nav.nav)">
+              <span class="text">{{ 'solution.nav.' + nav.nav | translate }}</span>
+              <ng-container *ngIf="solutionInfoSelect === nav.nav">
+                <span class="border-bottom"></span>
+              </ng-container>
+            </span>
+          </div>
+        </div>
+          <div class="solution-intro-item-wrapper" style="{{onNumberPadding()}}">
+              <div class="solution-intro-content"  *ngFor="let content of solutionInfo; let i = index" (swipeleft)="onSwipeLeft($event)" [style.touch-action]="'pan-y'" (swiperight)="onSwipeRight($event)">
+                  <div class="solution-intro-item">
+                      <div class="intro-section" *ngFor="let section of content.content">
+                          <div class="intro-title f-bold">
+                              {{'solution.content.' + content.nav + '.' + section.title | translate }}
+                          </div>
+                          <p *ngIf="section.desc" class="intro-desc">
+                              {{'solution.content.' + content.nav + '.' + section.desc | translate }}
+                          </p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="section insight-page" #insightView>
+    <div class="inner-content">
+      <p class="insight-title f-heavy">{{'insight.title' | translate}}</p>
+      <div class="insight-list">
+        <ng-container *ngFor="let news of insightList; let i = index">
+          <div class="insight-item">
+            <p class="news-title f-bold">{{ news.title }}</p>
+            <div class="news-desc">
+              {{ news.desc }}
+              <a class="news-link" (click)="onOpen(news.href)">[{{ 'insight.view-more' | translate }}]</a>
+            </div>
+            <span class="news-date">{{news.date}}</span>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <div class="section about-us-page" #aboutUsView>
+    <div class="au-inner">
+      <div class="au-first-block">
+        <p class="au-title f-heavy">{{'about-us.title' | translate}}</p>
+        <p class="au-desc">{{ 'about-us.desc' | translate}}</p>
+      </div>
+      <ng-container *ngIf="mobile; else noMobile">
+        <div class="au-third-block">
+          <div class="text-block">
+            <div class="third-inner">
+              <div class="logo">
+                <img src="./assets/img/logo.png" alt="">
+              </div>
+              <div class="third-title f-heavy">
+                {{ 'about-us.zonghe-consolution' | translate }}
+              </div>
+              <div class="third-desc">
+                {{ 'about-us.zonghe-desc' | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="au-second-block">
+          <div class="text-block">
+            <div class="text-item" *ngFor="let text of aboutUsList">
+              <div class="text-title f-bold">{{ 'about-us.' + text.title | translate }}:</div>
+              <div class="text-desc f-light">{{ 'about-us.' + text.desc | translate }}</div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #noMobile>
+        <div class="au-second-block">
+          <div class="text-block">
+            <div class="text-item" *ngFor="let text of aboutUsList">
+              <div class="text-title f-bold">{{ 'about-us.' + text.title | translate }}:</div>
+              <div class="text-desc f-light">{{ 'about-us.' + text.desc | translate }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="au-third-block">
+          <div class="text-block">
+            <div class="third-inner">
+              <div class="logo">
+                <img src="./assets/img/logo.png" alt="">
+              </div>
+              <div class="third-title f-heavy">
+                {{ 'about-us.zonghe-consolution' | translate }}
+              </div>
+              <div class="third-desc">
+                {{ 'about-us.zonghe-desc' | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+  <div class="section team-page" #teamView>
+    <div class="inner-content">
+      <p class="team-title f-heavy">{{'teams.title' | translate}}</p>
+      <div class="team-main-content">
+        <ng-container *ngIf="mobile; else noMobile">
+          <div class="team-list" [ngStyle]="{left: teamListLeft}" #TEAM_LIST (swipeleft)="onTeamSwipeLeft(teamActiveIndex)" (swiperight)="onTeamSwipeRight(teamActiveIndex)" [style.touch-action]="'pan-y'">
+            <div class="team-item" *ngFor="let item of teamList">
+              <div class="person-info">
+                <div class="person-name f-bold">{{item.name}}</div>
+                <div class="person-desc">{{ translate.activeLang === 'zh' ? item.desc : item.descEn }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="team-list" [ngStyle]="{left: teamListLeft}" #TEAM_LIST (swipeleft)="onTeamSwipeLeft(teamActiveIndex)" (swiperight)="onTeamSwipeRight(teamActiveIndex)" [style.touch-action]="'pan-y'">
+            <div class="team-item" *ngFor="let item of teamList; let i = index">
+              <div class="person-image">
+                <img [class]="teamActiveIndex === i ? 'big' : ''" [src]="'./assets/img/' + item.big + '.png'" [alt]="item.name">
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #noMobile>
+          <div class="team-list" [ngStyle]="{left: teamListLeft}" #TEAM_LIST>
+            <div class="team-item" *ngFor="let item of teamList">
+              <div class="person-image">
+                <img [src]="'./assets/img/' + item.img + '.png'" [alt]="item.name">
+              </div>
+              <div class="person-info">
+                <div class="person-name f-bold">{{item.name}}</div>
+                <div class="person-desc">{{ translate.activeLang === 'zh' ? item.desc : item.descEn }}</div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+      <div class="team-main-nav">
+        <div class="active-nav" [ngStyle]="{left: activeNavLeft}"></div>
+        <div class="team-nav-item" *ngFor="let nav of teamList; let i = index" (click)="handleMoveTeam(i)">
+          <img [class]="teamActiveIndex === i ? 'big' : ''" [src]="'./assets/img/' + nav.img + '.png'" [alt]="nav.name">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section contact-page" #contactUsView>
+    <div class="inner-content">
+      <ng-container *ngIf="mobile; else noMobile">
+        <div class="contact-content">
+          <div class="contact-item contact-info">
+            <div class="contact-title f-heavy">{{'contact-us.title' | translate}}</div>
+            <div class="contact-info-content f-medium">
+              <div class="contact-info-item" *ngFor="let item of contactList">
+                <div class="contact-info-title">{{ 'contact-us.' + item.title | translate }}</div>
+                <div class="contact-info-desc">
+                  <ng-container *ngIf="item.isEmail; else TEXT">
+                    <a [href]="'mailto:' + item.desc" class="contact-info-email">{{ translate.activeLang === 'zh' ? item.desc : item.descEn }}</a>
+                  </ng-container>
+                  <ng-template #TEXT>
+                    {{ translate.activeLang === 'zh' ? item.desc : item.descEn }}
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="contact-item contact-map">
+            <div class="map-anchor">
+              <span>世纪财富中心</span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #noMobile>
+        <div class="contact-content">
+          <div class="contact-item contact-map">
+            <div class="map-anchor">
+              <span>世纪财富中心</span>
+            </div>
+          </div>
+          <div class="contact-item contact-info">
+            <div class="contact-title f-heavy">CONTACT US.</div>
+            <div class="contact-info-content f-medium">
+              <div class="contact-info-item" *ngFor="let item of contactList">
+                <div class="contact-info-title">{{ 'contact-us.' + item.title | translate }}</div>
+                <div class="contact-info-desc">
+                  <ng-container *ngIf="item.isEmail; else TEXT">
+                    <a [href]="'mailto:' + item.desc" class="contact-info-email">{{item.desc}}</a>
+                  </ng-container>
+                  <ng-template #TEXT>
+                    {{ item.desc }}
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+      <div class="contact-bottom">
+        <div class="quick-link-content">
+          <a class="quick-link" href="http://www.chinatax.gov.cn/" target="_blank">国家税务总局</a>
+          <a class="quick-link" href="http://www.mof.gov.cn/index.htm" target="_blank">中华人民共和国财政部</a>
+          <a class="quick-link" href="#home">宗赫资讯</a>
+        </div>
+        <footer class="footer">
+          <div class="social-icon-list">
+            <div class="social-icon icon-wechat">
+              <div class="tooltip-wechat"></div>
+            </div>
+            <div class="social-icon icon-email">
+              <div class="tooltip-email">service@zh-consulting.com</div>
+            </div>
+            <div class="social-icon icon-weibo">
+              <div class="tooltip-weibo"></div>
+            </div>
+            <div class="social-icon icon-phone">
+              <div class="tooltip-phone">18515008868</div>
+            </div>
+          </div>
+          <div class="copyright f-medium">
+            &copy; 2021 <a style="color: white" href="https://beian.miit.gov.cn/" target="_blank">京ICP备2021007009号</a>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </div>
+</div>

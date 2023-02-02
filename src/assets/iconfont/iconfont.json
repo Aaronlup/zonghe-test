@@ -1,0 +1,23 @@
+{
+  "id": "2366391",
+  "name": "zonghe",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "879161",
+      "name": "菜单",
+      "font_class": "ego-menu",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
+      "icon_id": "19763910",
+      "name": "形状结合",
+      "font_class": "-close",
+      "unicode": "e6af",
+      "unicode_decimal": 59055
+    }
+  ]
+}
