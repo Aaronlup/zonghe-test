@@ -64,6 +64,10 @@
   "teams": {
     "title": "TEAM."
   },
+  "nacos": {
+    "title": "谁在使用Nacos",
+    "desc": "宗赫咨询是国内政策性财税服务机构"
+  },
   "contact-us": {
     "title": "CONTACT US.",
     "cooperation": "商业合作",

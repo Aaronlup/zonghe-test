@@ -3,3 +3,4 @@ export * from './team';
 export * from './insight';
 export * from './solution';
 export * from './contact-us';
+export * from './nacos';

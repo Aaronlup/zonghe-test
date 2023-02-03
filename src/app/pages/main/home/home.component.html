@@ -163,6 +163,18 @@
         </div>
     </div>
   </div>
+  <div class="section nacos-page">
+    <div class="inner-content">
+      <p class="insight-title f-heavy">{{'nacos.title' | translate}}</p>
+      <p class="au-desc">{{ 'nacos.desc' | translate}}</p>
+      <div class="nacos-list">
+        <img *ngFor="let nacos of nacosList; let i = index"
+             class="nacos-item"
+             [src]="nacos.src"
+        >
+      </div>
+    </div>
+  </div>
   <div class="section contact-page">
     <div class="inner-content">
       <div class="contact-content">

@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, ElementRef, Inject, OnChanges, OnInit, PLATFORM_ID, ViewChild} from '@angular/core';
-import { solution, contactUs, insight, aboutUs, team } from 'src/app/mock';
+import { solution, contactUs, insight, aboutUs, team, nacos } from 'src/app/mock';
 import {TranslateService} from '@ngstack/translate';
 import {LocalStorageService} from '../../../servives/local-storage.service';
 import {CommonService} from '../../../servives/common.service';
@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   @ViewChild('contactUsView') contactUsView: ElementRef;
   solutionInfo = solution;
   insightList = insight;
+  nacosList = nacos;
   aboutUsList = aboutUs;
   contactList = contactUs;
   teamList = team;
